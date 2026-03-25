@@ -72,3 +72,4 @@
 /media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/obj/Debug/net8.0/EncurtadorDownload.pdb
 /media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/obj/Debug/net8.0/EncurtadorDownload.genruntimeconfig.cache
 /media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/obj/Debug/net8.0/ref/EncurtadorDownload.dll
+/media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/obj/Debug/net8.0/EncurtadorDownload.sourcelink.json

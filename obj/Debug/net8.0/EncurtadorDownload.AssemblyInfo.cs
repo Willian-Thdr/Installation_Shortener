@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EncurtadorDownload")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c118b70bdad4bd553ca724678188d0e97510cbc7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ccbec0d9fc5a9f2f01db7a4e77b919c8e7bb0cae")]
 [assembly: System.Reflection.AssemblyProductAttribute("EncurtadorDownload")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EncurtadorDownload")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
