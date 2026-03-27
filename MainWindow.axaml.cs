@@ -17,7 +17,6 @@ public partial class MainWindow : Window
 
     string? pathWay;
     string? fileName;
-    string? packageName;
 
     public MainWindow()
     {
@@ -93,27 +92,8 @@ public partial class MainWindow : Window
         {
             var psi = new ProcessStartInfo
             {
-                FileName = "dpkg-deb",
-                Arguments = $"-f \"{pathWay}\" Package",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-        }
-        
-    }
-
-    private void Procurar(object? sender, RoutedEventArgs e)
-    {
-        if (pathWay == null) {
-            new NotificationWindow("Por favor, preencha todos os campos", "ERROR", "Red").Show();
-        } 
-        else 
-        {
-            var psi = new ProcessStartInfo
-            {
-                FileName = "dpkg-deb",
-                ArgumentList = {$"-c {pathWay}"},
+                FileName = "pkexec",
+                Arguments = $"dpkg -i \"{pathWay}\"",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -121,27 +101,38 @@ public partial class MainWindow : Window
             };
 
             var process = Process.Start(psi);
-            
-            packageName = process.StandardOutput.ReadToEnd().Trim();
+
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+
             process.WaitForExit();
 
-            var psi2 = new ProcessStartInfo
+            if (!string.IsNullOrWhiteSpace(error))
             {
-                FileName = "dpkg",
-                ArgumentList = {$"-l {packageName}"},
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            
-            var process2 = Process.Start(psi2);
-            if (process2 == null) return;
+                new NotificationWindow(error, "ERROR", "Red").Show();
+            }
+            else
+            {
+                var notific = new NotificationWindow("Instalado com sucesso!", "Notification", "Lime");
+                notific.Timer();
+            }
+        }
+        
+    }
 
-            var result = process2.StandardOutput.ReadToEnd();
-            var error = process2.StandardError.ReadToEnd();
+    private void Procurar(object? sender, RoutedEventArgs e)
+    {
+        var getter = new DebPackages();
 
-            process2.WaitForExit();
+        if (pathWay == null) {
+            new NotificationWindow("Por favor, preencha todos os campos", "ERROR", "Red").Show();
+        } 
+        else 
+        {
+            var deb = new DebPackages();
+            string pkgName = deb.GetFile(pathWay);
+
+            var (output, error) = deb.GetPackage(pkgName);
 
             if (!string.IsNullOrWhiteSpace(error))
             {
@@ -149,7 +140,7 @@ public partial class MainWindow : Window
             }
             else
             {
-                new NotificationWindow(result, "Console", "Lime").Show();
+                new NotificationWindow(pkgName, "Console", "Lime").Show();
             }
         }
     }
@@ -185,7 +176,6 @@ public partial class MainWindow : Window
             var archive = archives[0];
             pathWay = archive.Path.LocalPath;
             PathExibicao.Content = archive.Name;
-            fileName = archive.Name;
 
             var notific = new NotificationWindow("O item foi selecionado", "Notificação", "White");
             notific.Timer();

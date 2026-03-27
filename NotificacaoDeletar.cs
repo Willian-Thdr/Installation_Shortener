@@ -83,6 +83,10 @@ public class NotificacaoDeletar : Window{
         if (packageName != null){
             new Aviso("AVISO", "Deseja deletar o programa, incluindo todos os arquivos do sistema do programa e \nconfigurações globais do sistema?", packageName).Show();
         }
+        else
+        {
+            new NotificationWindow("Preencha todos os campos.", "ERROR", "Red").Show();
+        }
     }
 
     
