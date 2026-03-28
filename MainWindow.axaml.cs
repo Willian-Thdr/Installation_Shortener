@@ -90,32 +90,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            var psi = new ProcessStartInfo
-            {
-                FileName = "pkexec",
-                Arguments = $"dpkg -i \"{pathWay}\"",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            var process = Process.Start(psi);
-
-            string output = process.StandardOutput.ReadToEnd();
-            string error = process.StandardError.ReadToEnd();
-
-            process.WaitForExit();
-
-            if (!string.IsNullOrWhiteSpace(error))
-            {
-                new NotificationWindow(error, "ERROR", "Red").Show();
-            }
-            else
-            {
-                var notific = new NotificationWindow("Instalado com sucesso!", "Notification", "Lime");
-                notific.Timer();
-            }
+            var instal = new InstallDeb(pathWay);
         }
         
     }

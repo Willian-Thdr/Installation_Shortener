@@ -1,8 +1,4 @@
-
-using System;
 using System.Diagnostics;
-using EncurtadorDownload;
-using Tmds.DBus.Protocol;
 
 public class DebPackages
 {
