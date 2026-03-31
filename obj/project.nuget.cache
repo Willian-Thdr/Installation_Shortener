@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "UW92vf62QuxwC8ggXyu9t0H1Jm3vBh7/tar9+WNzIspo8K7snsUUGPVSQi/ExuVFoF8gTdOvGPbDnWui0J944Q==",
+  "dgSpecHash": "t4jbCyKZmLA6E1Zq9naVcrqDEhxupqaws4bXPVuoWCwMHeaEs2/+xnk06kBakb7kHMeCRfDd+rzkguEovct/vQ==",
   "success": true,
   "projectFilePath": "/media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/EncurtadorDownload.csproj",
   "expectedPackageFiles": [
@@ -25,13 +25,17 @@
     "/home/willian-theodoro/.nuget/packages/harfbuzzsharp.nativeassets.webassembly/8.3.1.1/harfbuzzsharp.nativeassets.webassembly.8.3.1.1.nupkg.sha512",
     "/home/willian-theodoro/.nuget/packages/harfbuzzsharp.nativeassets.win32/8.3.1.1/harfbuzzsharp.nativeassets.win32.8.3.1.1.nupkg.sha512",
     "/home/willian-theodoro/.nuget/packages/microcom.runtime/0.11.0/microcom.runtime.0.11.0.nupkg.sha512",
+    "/home/willian-theodoro/.nuget/packages/microsoft.net.illink.tasks/8.0.25/microsoft.net.illink.tasks.8.0.25.nupkg.sha512",
     "/home/willian-theodoro/.nuget/packages/skiasharp/2.88.9/skiasharp.2.88.9.nupkg.sha512",
     "/home/willian-theodoro/.nuget/packages/skiasharp.nativeassets.linux/2.88.9/skiasharp.nativeassets.linux.2.88.9.nupkg.sha512",
     "/home/willian-theodoro/.nuget/packages/skiasharp.nativeassets.macos/2.88.9/skiasharp.nativeassets.macos.2.88.9.nupkg.sha512",
     "/home/willian-theodoro/.nuget/packages/skiasharp.nativeassets.webassembly/2.88.9/skiasharp.nativeassets.webassembly.2.88.9.nupkg.sha512",
     "/home/willian-theodoro/.nuget/packages/skiasharp.nativeassets.win32/2.88.9/skiasharp.nativeassets.win32.2.88.9.nupkg.sha512",
     "/home/willian-theodoro/.nuget/packages/system.io.pipelines/8.0.0/system.io.pipelines.8.0.0.nupkg.sha512",
-    "/home/willian-theodoro/.nuget/packages/tmds.dbus.protocol/0.21.2/tmds.dbus.protocol.0.21.2.nupkg.sha512"
+    "/home/willian-theodoro/.nuget/packages/tmds.dbus.protocol/0.21.2/tmds.dbus.protocol.0.21.2.nupkg.sha512",
+    "/home/willian-theodoro/.nuget/packages/microsoft.netcore.app.runtime.linux-x64/8.0.25/microsoft.netcore.app.runtime.linux-x64.8.0.25.nupkg.sha512",
+    "/home/willian-theodoro/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-x64/8.0.25/microsoft.aspnetcore.app.runtime.linux-x64.8.0.25.nupkg.sha512",
+    "/home/willian-theodoro/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.25/microsoft.netcore.app.host.linux-x64.8.0.25.nupkg.sha512"
   ],
   "logs": []
 }

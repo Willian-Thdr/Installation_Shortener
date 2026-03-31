@@ -12,8 +12,10 @@ public partial class RepairWindow : Window
 
         var btnRepair = this.FindControl<Button>("RepairButton");
         var btnFinalize = this.FindControl<Button>("FinalizeButton");
+        var btnSearch = this.FindControl<Button>("SearchButton");
+        var btnUpdate = this.FindControl<Button>("UpdateButton");
 
-        if (btnFinalize != null && btnRepair != null)
+        if (btnFinalize != null && btnRepair != null && btnSearch != null)
         {
             btnRepair.Background = Brushes.White;
             btnRepair.BorderBrush = Brushes.Black;
@@ -23,8 +25,18 @@ public partial class RepairWindow : Window
             btnFinalize.BorderBrush = Brushes.Black;
             btnFinalize.Foreground = Brushes.Black;
 
+            btnSearch.Background = Brushes.White;
+            btnSearch.BorderBrush = Brushes.Black;
+            btnSearch.Foreground = Brushes.Black;
+
+            btnUpdate.Background = Brushes.White;
+            btnUpdate.BorderBrush = Brushes.Black;
+            btnUpdate.Foreground = Brushes.Black;
+
              new Efeito(btnRepair);
              new Efeito(btnFinalize);
+             new Efeito(btnSearch);
+             new Efeito(btnUpdate);
         }
     }
 
@@ -47,11 +59,11 @@ public partial class RepairWindow : Window
 
         if (!string.IsNullOrWhiteSpace(error))
         {
-            new NotificationWindow("ERROR", "Ocorreu um erro ao corrigir dependências", "Red").Show();
+            new NotificationWindow("Ocorreu um erro ao corrigir dependências", "ERROR", "Red").Show();
         }
          else
         {
-            new NotificationWindow("SUCESSO", "Dependências corrigidas com sucesso", "Lime").Show();
+            new NotificationWindow("Dependências corrigidas com sucesso", "SUCESSO", "Lime").Show();
         }
     }
 
@@ -74,11 +86,11 @@ public partial class RepairWindow : Window
 
         if (!string.IsNullOrWhiteSpace(error))
         {
-            new NotificationWindow("ERROR", "Ocorreu um erro ao corrigir dependências", "Red").Show();
+            new NotificationWindow("Ocorreu um erro ao corrigir dependências", "ERROR", "Red").Show();
         }
          else
         {
-            new NotificationWindow("SUCESSO", "Dependências corrigidas com sucesso", "Lime").Show();
+            new NotificationWindow("Dependências corrigidas com sucesso", "Sucesso", "Lime").Show();
         }
     }
 
@@ -114,5 +126,50 @@ public partial class RepairWindow : Window
         {
             new NotificationWindow("Nenhum pacote quebrado encontrado.", "Sucesso", "Lime").Show();
         }
+    }
+
+    private void SearchUpdates(object? sender, RoutedEventArgs e)
+    {
+        var (upgrateOutput, upgradeError) = ExecuteCommand("apt-get", "-s upgrade");
+        var (autoOutput, autoError) = ExecuteCommand("apt-get", "-s autoremove");
+
+        bool hasUpdates = !upgrateOutput.Contains("0 upgraded");
+        bool hasTrash = !autoOutput.Contains("0 to remove");
+
+        if (!string.IsNullOrWhiteSpace(upgradeError))
+        {
+            new NotificationWindow(upgradeError, "ERROR", "Red").Show();
+            return;
+        }
+
+        string menssage = "";
+
+        menssage += hasUpdates ? "Atualizações disponíveis:\n" : "Nenhuma atualização disponível.\n";
+        
+        menssage += hasTrash ? "Pacotes para remoção automática:\n" : "Nenhum pacote para remoção automática.";
+
+        new NotificationWindow(menssage, "Satatus do Sistema", "Lime").Show();
+    }
+
+    private (string output, string error) ExecuteCommand(string arg1, string arg2)
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = arg1,
+            Arguments = arg2,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        var process = Process.Start(psi);
+
+        string output = process.StandardOutput.ReadToEnd();
+        string error = process.StandardError.ReadToEnd();
+
+        process.WaitForExit();
+
+        return (output, error);
     }
 }

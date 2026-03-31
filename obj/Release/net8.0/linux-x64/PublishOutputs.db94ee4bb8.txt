@@ -1,0 +1,4 @@
+/media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/publish/EncurtadorDownload.pdb
+/media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/publish/libHarfBuzzSharp.so
+/media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/publish/libSkiaSharp.so
+/media/willian-theodoro/HD secundário/Trabalhos/Projetos/EncurtadorDownload/publish/EncurtadorDownload

@@ -6,11 +6,11 @@ using Avalonia.Media;
 
 public class NotificationWindow : Window
 {
-    public NotificationWindow(string mensage, string title, string color)
+        public NotificationWindow(string mensage, string title, string color)
     {
         Title = title;
         Width = 250;
-        Height = 150;
+        Height = 200;
         Background = Brushes.Black;
 
         var brush = new SolidColorBrush(Color.Parse(color));
@@ -19,7 +19,7 @@ public class NotificationWindow : Window
         {
             Text = mensage,
             IsReadOnly = true,
-            Width = 200,
+            Width = 225,
             BorderThickness = new Avalonia.Thickness(0),
             Background = Brushes.Black,
             VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
@@ -32,7 +32,7 @@ public class NotificationWindow : Window
         var canvas = new Canvas
         {
             Width = 250,
-            Height = 100,
+            Height = 150,
             Background = Brushes.Black  
         };
         
@@ -64,10 +64,10 @@ public class NotificationWindow : Window
             }
         };
 
-        Canvas.SetTop(textBox, 10);
-        Canvas.SetLeft(textBox, 25);
-        Canvas.SetRight(textBox, 25);
-        Canvas.SetTop(copyButton, 65);
+        Canvas.SetTop(textBox, 5);
+        Canvas.SetLeft(textBox, 12.5);
+        Canvas.SetRight(textBox, 12.5);
+        Canvas.SetTop(copyButton, 140);
         Canvas.SetLeft(copyButton, 80);
         Canvas.SetRight(copyButton, 80);
 

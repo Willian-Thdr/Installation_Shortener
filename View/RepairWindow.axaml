@@ -32,5 +32,11 @@
         Canvas.Left="40" Canvas.Top="190" Foreground="Black" 
         BorderBrush="Black" BorderThickness="2" Name="SearchButton"
         Height="30" FontSize="14" Width="215" HorizontalContentAlignment="Center"/>
+    
+        <!--Botão localizar atualizações de pacotes-->
+        <Button Content="Verificar atualizações" Click="SearchUpdates"
+        Canvas.Left="40" Canvas.Top="240" Foreground="Black" 
+        BorderBrush="Black" BorderThickness="2" Name="UpdateButton"
+        Height="26" FontSize="14" Width="215" HorizontalContentAlignment="Center"/>
     </Canvas>
 </Window>
