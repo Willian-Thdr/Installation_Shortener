@@ -1,11 +1,14 @@
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Platform.Storage;
 
 namespace EncurtadorDownload;
 public partial class RepairWindow : Window
 {
+    private string? package;
     public RepairWindow()
     {
         InitializeComponent();
@@ -14,8 +17,14 @@ public partial class RepairWindow : Window
         var btnFinalize = this.FindControl<Button>("FinalizeButton");
         var btnSearch = this.FindControl<Button>("SearchButton");
         var btnUpdate = this.FindControl<Button>("UpdateButton");
-
-        if (btnFinalize != null && btnRepair != null && btnSearch != null)
+        var btnUpdateList = this.FindControl<Button>("btnUpdateList");
+        var btnUpdateAll = this.FindControl<Button>("btnUpdateAll");
+        var btnSelectArchive = this.FindControl<Button>("btnSelectArchive");
+        var btnReinstallPackage = this.FindControl<Button>("btnReinstallPackage");
+        
+        if (btnFinalize != null && btnRepair != null && btnSearch != null 
+        && btnUpdate != null && btnUpdateList != null && btnUpdateAll != null
+        && btnSelectArchive != null && btnReinstallPackage != null)
         {
             btnRepair.Background = Brushes.White;
             btnRepair.BorderBrush = Brushes.Black;
@@ -33,10 +42,30 @@ public partial class RepairWindow : Window
             btnUpdate.BorderBrush = Brushes.Black;
             btnUpdate.Foreground = Brushes.Black;
 
-             new Efeito(btnRepair);
-             new Efeito(btnFinalize);
-             new Efeito(btnSearch);
-             new Efeito(btnUpdate);
+            btnUpdateList.Background = Brushes.White;
+            btnUpdateList.BorderBrush = Brushes.Black;
+            btnUpdateList.Foreground = Brushes.Black;
+
+            btnUpdateAll.Background = Brushes.White;
+            btnUpdateAll.BorderBrush = Brushes.Black;
+            btnUpdateAll.Foreground = Brushes.Black;
+
+            btnSelectArchive.Background = Brushes.White;
+            btnSelectArchive.BorderBrush = Brushes.Black;
+            btnSelectArchive.Foreground = Brushes.Black;
+
+            btnReinstallPackage.Background = Brushes.White;
+            btnReinstallPackage.BorderBrush = Brushes.Black;
+            btnReinstallPackage.Foreground = Brushes.Black;
+
+            new Efeito(btnRepair);
+            new Efeito(btnFinalize);
+            new Efeito(btnSearch);
+            new Efeito(btnUpdate);
+            new Efeito(btnUpdateList);
+            new Efeito(btnUpdateAll);
+            new Efeito(btnSelectArchive);
+            new Efeito(btnReinstallPackage);
         }
     }
 
@@ -149,6 +178,129 @@ public partial class RepairWindow : Window
         menssage += hasTrash ? "Pacotes para remoção automática:\n" : "Nenhum pacote para remoção automática.";
 
         new NotificationWindow(menssage, "Satatus do Sistema", "Lime").Show();
+    }
+
+    private void UpdateList(object? sender, RoutedEventArgs e)
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = "pkexec",
+            ArgumentList = {"apt update"},
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        var process = Process.Start(psi);
+
+        string error = process.StandardError.ReadToEnd();
+        string output = process.StandardOutput.ReadToEnd();
+
+        if (!string.IsNullOrWhiteSpace(error))
+        {
+            new NotificationWindow(error, "Error", "Red").Show();
+        } 
+        else
+        {
+            new NotificationWindow(output, "Sucesso", "White").Show();
+        }
+
+    }
+
+    private void UpdateAll(object? sender, RoutedEventArgs e)
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = "pkexec",
+            ArgumentList = {"apt -y upgrade"},
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        var process = Process.Start(psi);
+
+        string error = process.StandardError.ReadToEnd();
+        string output = process.StandardOutput.ReadToEnd();
+
+        if (!string.IsNullOrWhiteSpace(error))
+        {
+            new NotificationWindow(error, "Error", "Red").Show();
+        } 
+        else
+        {
+            new NotificationWindow(output, "Sucesso", "White").Show();
+        }
+    }
+
+    private async void SelectArchive(object? sender, RoutedEventArgs e) {
+        var archiveSpace = this.FindControl<Label>("ArchiveSpace");
+        var topLevel = TopLevel.GetTopLevel(this);
+    
+        var archives = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Explorador de arquivos",
+            AllowMultiple = false,
+
+            FileTypeFilter = new[]
+            {
+                new FilePickerFileType("Arquivos .deb")
+                {
+                    Patterns = new[] {"*.deb"}
+                },
+                new FilePickerFileType("Todos os arquivos")
+                {
+                    Patterns = new[] {"*.*"}
+                }
+            }
+        });
+
+        if (archives.Count > 0)
+        {
+            var archive = archives[0];
+            package = archive.Path.LocalPath;
+            archiveSpace.Content = archive.Name;
+
+
+            var notific = new NotificationWindow("O item foi selecionado", "Notificação", "White");
+            notific.Timer();
+        }
+    }   
+
+    private void ReinstallPackage(object? sender, RoutedEventArgs e)
+    {
+        if (package == null)
+        {
+            var notific = new NotificationWindow("Por favor, preencha todos os campos", "ERROR", "Red");
+            notific.Timer();
+        } 
+        else 
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = "pkexec",
+                Arguments = $"env DEBIAN_FRONTEND=noninteractive apt-get install --reinstall -y {package}",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false
+            };
+
+            var process = Process.Start(psi);
+
+            string error = process.StandardError.ReadToEnd();
+            string output = process.StandardOutput.ReadToEnd();
+
+            if (!string.IsNullOrWhiteSpace(error))
+            {
+                new NotificationWindow(error, "Error", "Red").Show();
+            } 
+            else
+            {
+                new NotificationWindow(output, "Sucesso", "White").Show();
+            }
+        }
     }
 
     private (string output, string error) ExecuteCommand(string arg1, string arg2)

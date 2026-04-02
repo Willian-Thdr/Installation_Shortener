@@ -77,8 +77,6 @@ public partial class MainWindow : Window
 
     private void Procurar(object? sender, RoutedEventArgs e)
     {
-        var getter = new DebPackages();
-
         if (pathWay == null) {
             new NotificationWindow("Por favor, preencha todos os campos", "ERROR", "Red").Show();
         } 

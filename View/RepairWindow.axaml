@@ -17,26 +17,56 @@
         
         <!--Botão de corrigir dependências-->
         <Button Content="Corrigir Dependências" Click="RepairDep" 
-        Canvas.Left="40" Canvas.Top="100" Foreground="Black" 
+        Canvas.Left="60" Canvas.Top="100" Foreground="Black" 
         BorderBrush="Black" BorderThickness="2" Name="RepairButton"
         Height="26" FontSize="14" Width="165" HorizontalContentAlignment="Center"/>
     
         <!--Botão finalizar download-->
         <Button Content="Finalizar intalação de pacotes" Click="FinishDownload"
-        Canvas.Left="40" Canvas.Top="146" Foreground="Black" 
+        Canvas.Left="60" Canvas.Top="146" Foreground="Black" 
         BorderBrush="Black" BorderThickness="2" Name="FinalizeButton"
         Height="26" FontSize="14" Width="215" HorizontalContentAlignment="Center"/>
 
         <!--Botão localizar pacotes quebrados-->
         <Button Content="Ver Pacote(s) quebrado(s)" Click="SearchBroken"
-        Canvas.Left="40" Canvas.Top="190" Foreground="Black" 
+        Canvas.Left="60" Canvas.Top="190" Foreground="Black" 
         BorderBrush="Black" BorderThickness="2" Name="SearchButton"
-        Height="30" FontSize="14" Width="215" HorizontalContentAlignment="Center"/>
+        Height="26" FontSize="13" Width="200" HorizontalContentAlignment="Center"/>
     
         <!--Botão localizar atualizações de pacotes-->
         <Button Content="Verificar atualizações" Click="SearchUpdates"
-        Canvas.Left="40" Canvas.Top="240" Foreground="Black" 
+        Canvas.Left="60" Canvas.Top="240" Foreground="Black" 
         BorderBrush="Black" BorderThickness="2" Name="UpdateButton"
-        Height="26" FontSize="14" Width="215" HorizontalContentAlignment="Center"/>
+        Height="26" FontSize="14" Width="180" HorizontalContentAlignment="Center"/>
+
+        <!--Botão atualizar lista-->
+        <Button Content="Atualizar lista" Click="UpdateList"
+        Canvas.Left="60" Canvas.Top="286" Foreground="Black" 
+        BorderBrush="Black" BorderThickness="2" Name="btnUpdateList"
+        Height="26" FontSize="14" Width="160" HorizontalContentAlignment="Center"/>
+    
+        <!--Botão atualizar toda a lista-->
+        <Button Content="Atualizar Tudo" Click="UpdateAll"
+        Canvas.Right="60" Canvas.Top="100" Foreground="Black" 
+        BorderBrush="Black" BorderThickness="2" Name="btnUpdateAll"
+        Height="26" FontSize="14" Width="160" HorizontalContentAlignment="Center"/>
+
+        <!--Entrada de arquivo-->
+        <Label Content="Selecione seu arquivo" Canvas.Top="190" Canvas.Right="60"
+        BorderBrush="Black" BorderThickness="2" Foreground="black" Width="250"
+        HorizontalContentAlignment="Center" Height="26" Name="ArchiveSpace"/>
+
+        <!--Selecionar arquivo-->
+        <Button Content="Selecionar arquivo" Click="SelectArchive"
+        Canvas.Right="60" Canvas.Top="240" Foreground="Black" 
+        BorderBrush="Black" BorderThickness="2" Name="btnSelectArchive"
+        Height="29" FontSize="12" Width="120" HorizontalContentAlignment="Center"/>
+
+        <!--Reinstalar pacote específico-->
+        <Button Content="Reinstalar pacote" Click="ReinstallPackage"
+        Canvas.Right="190" Canvas.Top="240" Foreground="Black" 
+        BorderBrush="Black" BorderThickness="2" Name="btnReinstallPackage"
+        Height="29" FontSize="12" Width="120" HorizontalContentAlignment="Center"/>
+
     </Canvas>
 </Window>
