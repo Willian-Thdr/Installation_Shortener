@@ -24,7 +24,7 @@ public partial class InstallFlatpakref
         var psi = new ProcessStartInfo
         {
             FileName = "flatpak",
-            Arguments = $"install {archive}",
+            Arguments = $"install --from {archive} -y",
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
@@ -32,11 +32,23 @@ public partial class InstallFlatpakref
         };
 
         var process = Process.Start(psi);
+        if (process == null)
+        {
+            new NotificationWindow("Falha ao iniciar download", "ERROR", "Red").Show();
+            return;
+        }
 
         string output = process.StandardOutput.ReadToEnd();
         string error = process.StandardError.ReadToEnd();
 
-        if (!string.IsNullOrWhiteSpace(error))
+        process.WaitForExit();
+
+        if (process.ExitCode == 0)
+        {
+            var notific = new NotificationWindow("Download feito com sucesso", "Sucesso", "Lime");
+            notific.Timer();
+        }
+        else
         {
             if (error.Contains("flathub", StringComparison.OrdinalIgnoreCase) &&
             error.Contains("not found", StringComparison.OrdinalIgnoreCase))
@@ -47,11 +59,6 @@ public partial class InstallFlatpakref
             {
             new NotificationWindow(error, "ERROR", "Red").Show();                
             }
-        }
-        else
-        {
-            var notific = new NotificationWindow("Download feito com sucesso", "Sucesso", "Lime");
-            notific.Timer();
         }
     }
 

@@ -54,17 +54,27 @@ public partial class SearchAll : Window
         };
 
         var process = Process.Start(psi);
+        if (process == null)
+        {
+            new NotificationWindow("Erro ao iniciar processo", "ERROR", "Red").Show();
+            return;
+        }
 
         string output = process.StandardOutput.ReadToEnd();
         string error = process.StandardError.ReadToEnd();
+
+        process.WaitForExit();
 
         if (!string.IsNullOrWhiteSpace(error))
         {
             new NotificationWindow(error, "ERROR", "Red").Show();
         }
+        else if (!string.IsNullOrWhiteSpace(output))        {
+            new NotificationWindow(output, "Pacotes", "White").Show();
+        }
         else
         {
-            new NotificationWindow(output, "Pacotes", "White").Show();
+            new NotificationWindow("Nenhum pacote encontrado", "ERROR", "Red").Show();
         }
     }
 }

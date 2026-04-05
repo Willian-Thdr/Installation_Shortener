@@ -20,15 +20,17 @@ public partial class MainWindow : Window
         Unknown
     }
     
-    private formatType GetFormatType (string path)
+    private formatType GetFormatType (string? path)
     {
-        if (path.Contains(".deb"))
+        if (Path.GetExtension(path) == ".deb")
         {
             return formatType.Deb;
-        } else if (path.Contains(".flatpakref"))
+        } 
+        else if (Path.GetExtension(path) == ".flatpakref")
         {
             return formatType.Flatpakref;
-        } else
+        } 
+        else
         {
             return formatType.Unknown;
         }
@@ -81,7 +83,8 @@ public partial class MainWindow : Window
 
     private async void SelectArchive(object? sender, RoutedEventArgs e)
     {
-        string? way = PathExibicao.Content as string;
+        var pathExibicao = this.FindControl<Label>("PathExibicao"); 
+        string? showcase = pathExibicao.ToString();
 
         await OpenExplorer();
     }
@@ -118,7 +121,13 @@ public partial class MainWindow : Window
 
     private void Procurar(object? sender, RoutedEventArgs e)
     {
-        if (pathWay.Contains(".deb")) 
+        if (string.IsNullOrWhiteSpace(pathWay)) 
+        {
+            new SearchAll().Show();
+            return;
+        }
+        
+        if (Path.GetExtension(pathWay) == ".deb") 
         {
             var deb = new DebPackages();
             string pkgName = deb.GetDebFile(pathWay);
@@ -131,34 +140,30 @@ public partial class MainWindow : Window
             }
             else
             {
-                new NotificationWindow(pkgName, "Console", "Lime").Show();
+                new NotificationWindow(pkgName, "Console", "White").Show();
             }
-        }
-
-        else if (pathWay.Contains(".flatpakref"))
+            return;
+        } 
+        else if (Path.GetExtension(pathWay) == ".flatpakref") 
         {
-            var deb = new FlatpakPackages();
-            string pkgName = deb.GetFlatpakFile(pathWay);
+            var flatpak = new FlatpakPackages();
+            string pkgName = flatpak.GetFlatpakFile(pathWay);
 
-            var (output, error) = deb.GetPackage(pkgName);
-
-            if (!string.IsNullOrWhiteSpace(error))
+            if (!string.IsNullOrWhiteSpace(pkgName))
             {
-                new NotificationWindow(error, "Console", "Red").Show();
+                new NotificationWindow(pkgName, "Console", "White").Show();
+                return;
             }
             else
             {
-                new NotificationWindow(pkgName, "Console", "Lime").Show();
+                new NotificationWindow("Falha ao ler flatpakref", "ERROR", "Red").Show();
+                return; 
             }
+            return;
         }
-
-        else if (pathWay == null) {
-            new SearchAll().Show();
-        }
-        else
-        {
-            new NotificationWindow("Formato de arquivo não reconhcido", "ERROR", "Red").Show();
-        }
+        
+        new NotificationWindow("Formato de arquivo não reconhcido", "ERROR", "Red").Show();
+            
     }
 
     private void Deletar(object? sender, RoutedEventArgs e)
